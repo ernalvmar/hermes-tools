@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { ProjectStats, Task } from '@/lib/kanban-reader';
+import type { ProjectStats, Task } from '@/lib/kanban-types';
 import { STATUS_BADGE, type TaskStatus } from '@/lib/status-badges';
-import { PROJECTS } from '@/lib/kanban-reader';
+import { PROJECTS } from '@/lib/kanban-types';
 
 type Filter = 'todos' | string;
 

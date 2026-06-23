@@ -1,26 +1,25 @@
-# Next.js 15 production Dockerfile — hermes-dashboard
+# Next.js 14 production Dockerfile — hermes-dashboard (standalone)
 FROM node:22-bullseye-slim AS base
 WORKDIR /app
 
 # Dependencies
-COPY package*.json ./
+COPY package.json package-lock.json ./
 RUN npm ci --legacy-peer-deps
 
 # Build
 COPY . .
 RUN npm run build
 
-# Production
+# Production — standalone mode (Next.js 14 output: 'standalone')
 FROM node:22-bullseye-slim
 WORKDIR /app
 ENV NODE_ENV=production
 ENV HOSTNAME=0.0.0.0
 ENV PORT=3000
 
-COPY --from=base /app/node_modules ./node_modules
-COPY --from=base /app/.next ./.next
-COPY --from=base /app/package.json ./package.json
-COPY --from=base /app/public ./public/ 2>/dev/null || true
+# Copy standalone output (includes server.js + minimal node_modules)
+COPY --from=base /app/.next/standalone ./
+COPY --from=base /app/.next/static ./.next/static
 
 EXPOSE 3000
-CMD ["npm", "run", "start"]
+CMD ["node", "server.js"]
