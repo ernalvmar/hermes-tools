@@ -67,7 +67,7 @@ function ProjectColumn({
             className={`inline-flex items-center text-xs px-2 py-0.5 rounded-full ${STATUS_BADGE[status].bgColor} ${STATUS_BADGE[status].textColor}`}
           >
             <StatusDot status={status} />
-            {count}
+            {STATUS_BADGE[status].label} {count}
           </span>
         ))}
       </div>
